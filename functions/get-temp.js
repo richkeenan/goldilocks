@@ -10,16 +10,20 @@ AWS.config = config;
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient({});
 
-exports.handler = async (event, context, callback) => {
-  const data = await DynamoDB.scan({
+exports.handler = (event, context, callback) => {
+  DynamoDB.scan({
     TableName: "temp"
-  }).promise();
+  })
+    .promise()
+    .then(data => {
+      const itemsByTime = data.Items.sort((a, b) =>
+        a.time.localeCompare(b.time)
+      );
+      const body = itemsByTime.map(i => ({ time: i.time, temp: i.temp }));
 
-  const itemsByTime = data.Items.sort((a, b) => a.time.localeCompare(b.time));
-  const body = itemsByTime.map(i => ({ time: i.time, temp: i.temp }));
-
-  callback(null, {
-    statusCode: 200,
-    body
-  });
+      callback(null, {
+        statusCode: 200,
+        body
+      });
+    });
 };
