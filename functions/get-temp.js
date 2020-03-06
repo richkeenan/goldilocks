@@ -1,8 +1,14 @@
 const AWS = require("aws-sdk");
 
-const DynamoDB = new AWS.DynamoDB.DocumentClient({
+var config = new AWS.Config({
+  accessKeyId: process.env.MY_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.MY_AWS_SECRET_ACCESS_KEY,
   region: "eu-west-2"
 });
+
+AWS.config = config;
+
+const DynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = async (event, context, callback) => {
   const data = await DynamoDB.scan({
