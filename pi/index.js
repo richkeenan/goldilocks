@@ -5,7 +5,7 @@ const Gpio = require("onoff").Gpio;
 const nodeCleanup = require("node-cleanup");
 
 const DynamoDB = new AWS.DynamoDB.DocumentClient({ region: "eu-west-2" });
-const file = "/sys/bus/w1/devices/28-0316a279370d/w1_slave";
+const file = "/sys/bus/w1/devices/28-0316a279370d/w1_slave"; // TODO glob
 
 console.log("Starting");
 
@@ -64,7 +64,7 @@ const run = async () => {
       relay1.writeSync(0);
     }
     sendToDynamo(t);
-  }, 1000);
+  }, 1000 * 10);
 };
 
 run();
