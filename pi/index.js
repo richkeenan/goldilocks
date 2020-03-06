@@ -64,7 +64,7 @@ const run = async () => {
       relay1.writeSync(0);
     }
     sendToDynamo(t);
-  }, 1000 * 10);
+  }, 1000 * 60);
 };
 
 run();
