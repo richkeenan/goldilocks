@@ -26,7 +26,7 @@ exports.handler = (event, context, callback) => {
       console.log("Returning body of ", JSON.stringify(body));
       callback(null, {
         statusCode: 200,
-        body
+        body: JSON.stringify(body)
       });
     });
 };
