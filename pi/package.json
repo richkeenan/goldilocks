@@ -1,0 +1,17 @@
+{
+  "name": "goldilocks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.633.0",
+    "moment": "^2.24.0",
+    "node-cleanup": "^2.1.2",
+    "onoff": "^5.0.1"
+  }
+}
