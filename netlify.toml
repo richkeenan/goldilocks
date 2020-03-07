@@ -2,4 +2,4 @@
 base = "dashboard/"
 publish = "build/"
 command = "yarn build"
-functions = "../functions/"
+functions = "functions/"
