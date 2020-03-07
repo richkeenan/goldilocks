@@ -44,7 +44,6 @@ const sendToDynamo = t => {
       ttl
     }
   };
-  console.log(params);
   DynamoDB.put(params, function(err) {
     if (err) {
       console.log(err);
@@ -53,18 +52,26 @@ const sendToDynamo = t => {
   });
 };
 
+const loop = () => {
+  const t = getTemp();
+  console.log(t);
+
+  // TODO check t > 40 because something's probably on fire
+
+  if (t < 18) {
+    relay3.writeSync(1);
+  } else {
+    relay3.writeSync(0);
+  }
+  sendToDynamo(t);
+};
+
+const periodMs = 1000 * 60;
 const run = async () => {
   setInterval(() => {
-    const t = getTemp();
-    console.log(t);
-
-    if (t > 21) {
-      relay3.writeSync(1);
-    } else {
-      relay3.writeSync(0);
-    }
-    sendToDynamo(t);
-  }, 1000 * 60);
+    loop();
+  }, periodMs);
+  loop(); // Run first loop immediately
 };
 
 run();
