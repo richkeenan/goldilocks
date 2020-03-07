@@ -22,7 +22,10 @@ exports.handler = (event, context, callback) => {
       const itemsByTime = data.Items.sort((a, b) =>
         a.time.localeCompare(b.time)
       );
-      const body = itemsByTime.map(i => ({ time: i.time, temp: i.temp }));
+      const body = itemsByTime.map(i => ({
+        time: i.time,
+        temp: parseFloat(i.temp)
+      }));
       console.log("Returning body of ", JSON.stringify(body));
       callback(null, {
         statusCode: 200,
