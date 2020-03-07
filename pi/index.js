@@ -59,9 +59,9 @@ const run = async () => {
     console.log(t);
 
     if (t > 21) {
-      relay1.writeSync(1);
+      relay3.writeSync(1);
     } else {
-      relay1.writeSync(0);
+      relay3.writeSync(0);
     }
     sendToDynamo(t);
   }, 1000 * 60);
