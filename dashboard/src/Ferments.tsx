@@ -34,7 +34,6 @@ type Props = {
   ferments: Ferment[];
 };
 const Ferments = ({ ferments }: Props) => {
-  const classes = useStyles();
   return (
     <>
       <Title>Current Ferments</Title>

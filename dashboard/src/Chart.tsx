@@ -25,11 +25,14 @@ const Chart = ({ data }: Props) => {
   const length = max - min + 1;
   const ticks = new Array(length).fill(0).map((_, i) => i + min);
 
+  // Remove noise from the chart
+  const sampledData = data.filter((_, i) => i % 10 == 0);
+
   return (
     <React.Fragment>
       <Title>Rolling 24 Hr Readings</Title>
       <ResponsiveContainer>
-        <LineChart data={data}>
+        <LineChart data={sampledData}>
           <YAxis
             ticks={ticks}
             domain={[min, max]}
