@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import Auth from "./util";
+import { createAuthOptions, handleAuthentication } from "./util";
 
 export const Auth0CallbackPage = () => {
   useEffect(() => {
-    const auth = new Auth();
-    auth.handleAuthentication();
+    const auth = createAuthOptions();
+    handleAuthentication(auth);
   }, []);
 
   return null;

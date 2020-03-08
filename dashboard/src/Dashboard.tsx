@@ -13,18 +13,20 @@ import Ferments from "./Ferments";
 import ReadingsTable from "./ReadingsTable";
 import { Ferment, Reading } from "./types";
 import useStyles from "./useStyles";
-
-type Props = {
-  isAuthenticated: boolean;
-  onLogin: () => void;
-  onLogout: () => void;
-};
-const Dashboard = ({ isAuthenticated, onLogin, onLogout }: Props) => {
+import {
+  isAuthenticated,
+  login,
+  logout,
+  createAuthOptions,
+  getAccessToken
+} from "./auth/util";
+const Dashboard = () => {
+  const auth = createAuthOptions();
   useEffect(() => {
-    if (!isAuthenticated) {
-      onLogin();
+    if (!isAuthenticated()) {
+      login(auth);
     }
-  }, [isAuthenticated, onLogin]);
+  }, [auth]);
 
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
@@ -35,7 +37,7 @@ const Dashboard = ({ isAuthenticated, onLogin, onLogout }: Props) => {
   useEffect(() => {
     fetch("/.netlify/functions/get-temp", {
       headers: new Headers({
-        Authorization: "derp"
+        Authorization: `Bearer ${getAccessToken()}`
       })
     })
       .then(r => r.json())
@@ -44,7 +46,7 @@ const Dashboard = ({ isAuthenticated, onLogin, onLogout }: Props) => {
 
     fetch("/.netlify/functions/ferments", {
       headers: new Headers({
-        Authorization: "derp"
+        Authorization: `Bearer ${getAccessToken()}`
       })
     })
       .then(r => r.json())
@@ -67,15 +69,9 @@ const Dashboard = ({ isAuthenticated, onLogin, onLogout }: Props) => {
             Goldilocks
           </Typography>
 
-          <Button variant="contained" onClick={onLogout}>
+          <Button variant="contained" onClick={() => logout()}>
             Logout
           </Button>
-
-          {/* <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton> */}
         </Toolbar>
       </AppBar>
 
