@@ -35,7 +35,7 @@ const Dashboard = () => {
   const [ferments, setFerments] = useState<Ferment[]>([]);
 
   useEffect(() => {
-    fetch("/.netlify/functions/get-temp", {
+    fetch("/.netlify/functions/readings", {
       headers: new Headers({
         Authorization: `Bearer ${getAccessToken()}`
       })
