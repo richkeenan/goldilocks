@@ -27,6 +27,18 @@ AWS.config = config;
 const DynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = (event, context, callback) => {
+  let token;
+  const authHeader = event.headers["Authorization"];
+  if (authHeader.startsWith("Bearer ")) {
+    token = authHeader.substring(7, authHeader.length);
+  } else {
+    callback(null, {
+      statusCode: 401,
+      body: "no token"
+    });
+    return;
+  }
+
   jwt.verify(
     token,
     getKey,
@@ -36,14 +48,16 @@ exports.handler = (event, context, callback) => {
     (err, decoded) => {
       if (err) {
         callback(null, {
-          statusCode: 401
+          statusCode: 401,
+          body: "invalid token"
         });
         return;
       }
 
       if (!allowedSubs.includes(decoded.sub)) {
         callback(null, {
-          statusCode: 401
+          statusCode: 401,
+          body: "invalid user"
         });
         return;
       }
