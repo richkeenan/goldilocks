@@ -3,12 +3,14 @@ import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
+import RefreshIcon from "@material-ui/icons/Update";
 import clsx from "clsx";
 import { format } from "date-fns";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   createAuthOptions,
   getAccessToken,
@@ -21,8 +23,8 @@ import Ferments from "./Ferments";
 import ReadingsTable from "./ReadingsTable";
 import Stat from "./Stat";
 import { Ferment, Reading } from "./types";
-import useStyles from "./useStyles";
 import useInterval from "./useInterval";
+import useStyles from "./useStyles";
 
 const Dashboard = () => {
   const auth = createAuthOptions();
@@ -37,11 +39,10 @@ const Dashboard = () => {
 
   const [readings, setReadings] = useState<Reading[]>([]);
   const [ferments, setFerments] = useState<Ferment[]>([]);
+  const [refresh, setRefresh] = useState(false);
 
   const lastReading =
     readings.length > 0 ? readings[readings.length - 1] : null;
-
-  console.log({ lastReading });
 
   const getData = useCallback(() => {
     fetch("/.netlify/functions/readings", {
@@ -67,7 +68,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => getData(), [getData]);
-  useInterval(() => getData(), 10000); // Refresh dashboard every 10 seconds
+  useInterval(() => getData(), refresh ? 3000 : null);
 
   return (
     <div className={classes.root}>
@@ -83,6 +84,13 @@ const Dashboard = () => {
           >
             Goldilocks
           </Typography>
+
+          <IconButton
+            color={refresh ? "inherit" : "default"}
+            onClick={() => setRefresh(r => !r)}
+          >
+            <RefreshIcon />
+          </IconButton>
 
           <Button variant="contained" onClick={() => logout()}>
             Logout
