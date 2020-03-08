@@ -8,7 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
-import Deposits from "./Deposits";
+import Ferments from "./Ferments";
 import ReadingsTable from "./ReadingsTable";
 import { Reading, Ferment } from "./types";
 import useStyles from "./useStyles";
@@ -62,7 +62,7 @@ export default function Dashboard() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <Ferments ferments={ferments} />
               </Paper>
             </Grid>
             {/* Recent Orders */}
