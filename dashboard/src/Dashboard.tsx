@@ -7,21 +7,23 @@ import Paper from "@material-ui/core/Paper";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
-import React, { useEffect, useState } from "react";
-import Chart from "./Chart";
 import { format } from "date-fns";
-import Ferments from "./Ferments";
-import ReadingsTable from "./ReadingsTable";
-import { Ferment, Reading } from "./types";
-import useStyles from "./useStyles";
+import React, { useEffect, useState, useCallback } from "react";
 import {
+  createAuthOptions,
+  getAccessToken,
   isAuthenticated,
   login,
-  logout,
-  createAuthOptions,
-  getAccessToken
+  logout
 } from "./auth/util";
+import Chart from "./Chart";
+import Ferments from "./Ferments";
+import ReadingsTable from "./ReadingsTable";
 import Stat from "./Stat";
+import { Ferment, Reading } from "./types";
+import useStyles from "./useStyles";
+import useInterval from "./useInterval";
+
 const Dashboard = () => {
   const auth = createAuthOptions();
   useEffect(() => {
@@ -39,7 +41,9 @@ const Dashboard = () => {
   const lastReading =
     readings.length > 0 ? readings[readings.length - 1] : null;
 
-  useEffect(() => {
+  console.log({ lastReading });
+
+  const getData = useCallback(() => {
     fetch("/.netlify/functions/readings", {
       headers: new Headers({
         Authorization: `Bearer ${getAccessToken()}`
@@ -61,6 +65,9 @@ const Dashboard = () => {
       .then(setFerments)
       .catch(err => console.log(err));
   }, []);
+
+  useEffect(() => getData(), [getData]);
+  useInterval(() => getData(), 10000); // Refresh dashboard every 10 seconds
 
   return (
     <div className={classes.root}>
