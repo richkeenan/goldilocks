@@ -3,8 +3,3 @@ base = "dashboard/"
 publish = "build/"
 command = "yarn build"
 functions = "functions/"
-
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
