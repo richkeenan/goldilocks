@@ -30,7 +30,7 @@ exports.handler = (event, context, callback) => {
   let token;
   console.log(JSON.stringify(event));
 
-  const authHeader = event.headers["Authorization"];
+  const authHeader = event.headers["authorization"];
   if (authHeader && authHeader.startsWith("Bearer ")) {
     token = authHeader.substring(7, authHeader.length);
   } else {
