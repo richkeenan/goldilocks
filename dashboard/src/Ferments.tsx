@@ -1,6 +1,5 @@
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
-import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import { differenceInDays, format } from "date-fns";
 import React from "react";
@@ -24,12 +23,6 @@ const FermentItem = ({ ferment }: { ferment: Ferment }) => {
   );
 };
 
-const useStyles = makeStyles({
-  depositContext: {
-    flex: 1
-  }
-});
-
 type Props = {
   ferments: Ferment[];
 };
@@ -38,7 +31,7 @@ const Ferments = ({ ferments }: Props) => {
     <>
       <Title>Current Ferments</Title>
       {ferments.map(f => (
-        <FermentItem ferment={f} />
+        <FermentItem key={f.desc} ferment={f} />
       ))}
     </>
   );

@@ -26,7 +26,7 @@ const Chart = ({ data }: Props) => {
   const ticks = new Array(length).fill(0).map((_, i) => i + min);
 
   // Remove noise from the chart
-  const sampledData = data.filter((_, i) => i % 10 == 0);
+  const sampledData = data.filter((_, i) => i % 10 === 0);
 
   return (
     <React.Fragment>
