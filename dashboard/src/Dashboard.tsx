@@ -1,4 +1,5 @@
 import AppBar from "@material-ui/core/AppBar";
+import Button from "@material-ui/core/Button";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
@@ -10,10 +11,21 @@ import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
 import Ferments from "./Ferments";
 import ReadingsTable from "./ReadingsTable";
-import { Reading, Ferment } from "./types";
+import { Ferment, Reading } from "./types";
 import useStyles from "./useStyles";
 
-export default function Dashboard() {
+type Props = {
+  isAuthenticated: boolean;
+  onLogin: () => void;
+  onLogout: () => void;
+};
+const Dashboard = ({ isAuthenticated, onLogin, onLogout }: Props) => {
+  useEffect(() => {
+    if (!isAuthenticated) {
+      onLogin();
+    }
+  }, [isAuthenticated, onLogin]);
+
   const classes = useStyles();
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -46,6 +58,16 @@ export default function Dashboard() {
           >
             Goldilocks
           </Typography>
+
+          <Button variant="contained" onClick={onLogout}>
+            Logout
+          </Button>
+
+          {/* <IconButton color="inherit">
+            <Badge badgeContent={4} color="secondary">
+              <NotificationsIcon />
+            </Badge>
+          </IconButton> */}
         </Toolbar>
       </AppBar>
 
@@ -76,4 +98,6 @@ export default function Dashboard() {
       </main>
     </div>
   );
-}
+};
+
+export default Dashboard;
