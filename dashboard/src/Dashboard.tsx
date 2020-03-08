@@ -33,12 +33,20 @@ const Dashboard = ({ isAuthenticated, onLogin, onLogout }: Props) => {
   const [ferments, setFerments] = useState<Ferment[]>([]);
 
   useEffect(() => {
-    fetch("/.netlify/functions/get-temp")
+    fetch("/.netlify/functions/get-temp", {
+      headers: new Headers({
+        Authorization: "derp"
+      })
+    })
       .then(r => r.json())
       .then(setReadings)
       .catch(err => console.log(err));
 
-    fetch("/.netlify/functions/ferments")
+    fetch("/.netlify/functions/ferments", {
+      headers: new Headers({
+        Authorization: "derp"
+      })
+    })
       .then(r => r.json())
       .then(setFerments)
       .catch(err => console.log(err));

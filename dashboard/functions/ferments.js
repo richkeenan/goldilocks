@@ -29,7 +29,7 @@ const DynamoDB = new AWS.DynamoDB.DocumentClient({});
 exports.handler = (event, context, callback) => {
   let token;
   const authHeader = event.headers["Authorization"];
-  if (authHeader.startsWith("Bearer ")) {
+  if (authHeader && authHeader.startsWith("Bearer ")) {
     token = authHeader.substring(7, authHeader.length);
   } else {
     callback(null, {
