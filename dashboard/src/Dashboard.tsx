@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import clsx from "clsx";
 import React, { useEffect, useState } from "react";
 import Chart from "./Chart";
+import { format } from "date-fns";
 import Ferments from "./Ferments";
 import ReadingsTable from "./ReadingsTable";
 import { Ferment, Reading } from "./types";
@@ -20,6 +21,7 @@ import {
   createAuthOptions,
   getAccessToken
 } from "./auth/util";
+import Stat from "./Stat";
 const Dashboard = () => {
   const auth = createAuthOptions();
   useEffect(() => {
@@ -33,6 +35,9 @@ const Dashboard = () => {
 
   const [readings, setReadings] = useState<Reading[]>([]);
   const [ferments, setFerments] = useState<Ferment[]>([]);
+
+  const lastReading =
+    readings.length > 0 ? readings[readings.length - 1] : null;
 
   useEffect(() => {
     fetch("/.netlify/functions/readings", {
@@ -82,19 +87,46 @@ const Dashboard = () => {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <Chart readings={readings} />
               </Paper>
             </Grid>
-            {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
                 <Ferments ferments={ferments} />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
+
+            <Grid item xs={12} md={4}>
+              <Paper className={classes.paper}>
+                <Stat
+                  name="Last Read Time"
+                  value={
+                    lastReading &&
+                    format(new Date(lastReading.time), "HH:mm:ss")
+                  }
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Paper className={classes.paper}>
+                <Stat
+                  name="Last Read Temp °/C"
+                  value={lastReading && `${lastReading.temp.toFixed(2)}`}
+                />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Paper className={classes.paper}>
+                <Stat
+                  name="Heater Status"
+                  value={
+                    !lastReading ? null : lastReading.heaterOn ? "On" : "Off"
+                  }
+                />
+              </Paper>
+            </Grid>
             <Grid item xs={12}>
               <Paper className={classes.paper}>
                 <ReadingsTable readings={readings} />

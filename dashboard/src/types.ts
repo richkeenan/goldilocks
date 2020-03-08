@@ -1,6 +1,7 @@
 export type Reading = {
   time: string;
   temp: number;
+  heaterOn: boolean;
 };
 
 export type Ferment = {

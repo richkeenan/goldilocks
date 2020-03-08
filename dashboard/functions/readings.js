@@ -69,7 +69,8 @@ exports.handler = (event, context, callback) => {
         .then(data => {
           const body = data.Items.map(i => ({
             time: i.time,
-            temp: parseFloat(i.temp)
+            temp: parseFloat(i.temp),
+            heaterOn: i.heaterOn
           }));
           callback(null, {
             statusCode: 200,
