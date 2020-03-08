@@ -19,6 +19,7 @@ const ReadingsTable = ({ readings }: Props) => {
           <TableRow>
             <TableCell>Date</TableCell>
             <TableCell>Temperature /°C</TableCell>
+            <TableCell>Heater On</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -28,6 +29,7 @@ const ReadingsTable = ({ readings }: Props) => {
               <TableRow key={row.time}>
                 <TableCell>{new Date(row.time).toLocaleTimeString()}</TableCell>
                 <TableCell>{row.temp.toFixed(2)}</TableCell>
+                <TableCell>{row.heaterOn ? "On" : "Off"}</TableCell>
               </TableRow>
             ))}
         </TableBody>

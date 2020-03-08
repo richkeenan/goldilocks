@@ -1,5 +1,4 @@
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
+import { Box } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { differenceInDays, format } from "date-fns";
 import React from "react";
@@ -8,18 +7,16 @@ import { Ferment } from "./types";
 
 const FermentItem = ({ ferment }: { ferment: Ferment }) => {
   const startDate = new Date(ferment.startDate);
-  const date = format(startDate, "dd MMM");
+  const date = format(startDate, "dd MMMM");
   const diff = differenceInDays(new Date(), startDate);
-  const s = `${date} (${diff} days)`;
+  const s = `${date} (${diff} ${diff === 1 ? "day" : "days"})`;
   return (
-    <Card>
-      <CardContent>
-        <Typography variant="h5" component="h2">
-          {ferment.desc}
-        </Typography>
-        <Typography color="textSecondary">{s}</Typography>
-      </CardContent>
-    </Card>
+    <Box mb={2}>
+      <Typography variant="h5" component="h2">
+        {ferment.desc}
+      </Typography>
+      <Typography color="textSecondary">{s}</Typography>
+    </Box>
   );
 };
 
