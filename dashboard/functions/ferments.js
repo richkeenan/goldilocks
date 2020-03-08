@@ -12,20 +12,13 @@ const DynamoDB = new AWS.DynamoDB.DocumentClient({});
 
 exports.handler = (event, context, callback) => {
   DynamoDB.scan({
-    TableName: "temp"
+    TableName: "ferments"
   })
     .promise()
     .then(data => {
-      const itemsByTime = data.Items.sort((a, b) =>
-        a.time.localeCompare(b.time)
-      );
-      const body = itemsByTime.map(i => ({
-        time: i.time,
-        temp: parseFloat(i.temp)
-      }));
       callback(null, {
         statusCode: 200,
-        body: JSON.stringify(body)
+        body: JSON.stringify(data.Items)
       });
     });
 };
