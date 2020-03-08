@@ -8,9 +8,9 @@ import Title from "./Title";
 import { Reading } from "./types";
 
 type Props = {
-  data: Reading[];
+  readings: Reading[];
 };
-const ReadingsTable = ({ data }: Props) => {
+const ReadingsTable = ({ readings }: Props) => {
   return (
     <>
       <Title>Rolling 24 Hr Readings</Title>
@@ -22,7 +22,7 @@ const ReadingsTable = ({ data }: Props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {[...data]
+          {[...readings]
             .sort((a, b) => b.time.localeCompare(a.time))
             .map(row => (
               <TableRow key={row.time}>

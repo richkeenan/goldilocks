@@ -3,6 +3,11 @@ import auth0 from "auth0-js";
 const AUTH0_DOMAIN = "dev-7jk4x0q6.eu.auth0.com";
 const AUTH0_CLIENT_ID = "AyI1iAPgsHwKVKoQVkybDW8cMZzDbEaq";
 
+const localhostRedirect = "http://localhost:3000/auth0_callback";
+const prodRedirect = "https://gold.richkeenan.com/auth0_callback";
+const redirectUri = window.location.hostname.includes("localhost")
+  ? localhostRedirect
+  : prodRedirect;
 // Adapted from https://swizec.com/blog/gatsby-auth0/swizec/8895
 
 export const createAuthOptions = () => {
@@ -10,7 +15,7 @@ export const createAuthOptions = () => {
     domain: AUTH0_DOMAIN,
     clientID: AUTH0_CLIENT_ID,
     // redirectUri: "http://localhost:3000/auth0_callback",
-    redirectUri: "https://gold.richkeenan.com/auth0_callback",
+    redirectUri,
     audience: `https://${AUTH0_DOMAIN}/api/v2/`,
     responseType: "token id_token",
     scope: "openid profile email"

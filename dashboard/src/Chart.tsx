@@ -13,26 +13,23 @@ import Title from "./Title";
 import { Reading } from "./types";
 
 type Props = {
-  data: Reading[];
+  readings: Reading[];
 };
-const Chart = ({ data }: Props) => {
+const Chart = ({ readings }: Props) => {
   const theme = useTheme();
 
-  if (data.length === 0) return null;
+  if (readings.length === 0) return null;
 
-  const min = Math.floor(Math.min(...data.map(d => d.temp))) - 1;
-  const max = Math.ceil(Math.max(...data.map(d => d.temp))) + 1;
+  const min = Math.floor(Math.min(...readings.map(d => d.temp))) - 1;
+  const max = Math.ceil(Math.max(...readings.map(d => d.temp))) + 1;
   const length = max - min + 1;
   const ticks = new Array(length).fill(0).map((_, i) => i + min);
-
-  // Remove noise from the chart
-  const sampledData = data.filter((_, i) => i % 10 === 0);
 
   return (
     <React.Fragment>
       <Title>Rolling 24 Hr Readings</Title>
       <ResponsiveContainer>
-        <LineChart data={sampledData}>
+        <LineChart data={readings}>
           <YAxis
             ticks={ticks}
             domain={[min, max]}

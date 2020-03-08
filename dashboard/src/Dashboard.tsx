@@ -41,7 +41,10 @@ const Dashboard = () => {
       })
     })
       .then(r => r.json())
-      .then(setReadings)
+      .then(d => {
+        const sorted = [...d].sort((a, b) => a.time.localeCompare(b.time));
+        setReadings(sorted);
+      })
       .catch(err => console.log(err));
 
     fetch("/.netlify/functions/ferments", {
@@ -82,7 +85,7 @@ const Dashboard = () => {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart data={readings} />
+                <Chart readings={readings} />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
@@ -94,7 +97,7 @@ const Dashboard = () => {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <ReadingsTable data={readings} />
+                <ReadingsTable readings={readings} />
               </Paper>
             </Grid>
           </Grid>
