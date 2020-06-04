@@ -53,8 +53,8 @@ const Chart = ({ readings }: Props) => {
             dot={false}
           />
 
-          <ReferenceLine strokeDasharray="3 3" y={21} stroke="orange" />
-          <ReferenceLine strokeDasharray="3 3" y={19} stroke="orange" />
+          <ReferenceLine strokeDasharray="3 3" y={22} stroke="orange" />
+          <ReferenceLine strokeDasharray="3 3" y={20} stroke="orange" />
         </LineChart>
       </ResponsiveContainer>
     </React.Fragment>
